@@ -1,11 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M2MqttExampleClient", "M2MqttClient\M2MqttExampleClient.csproj", "{2E5BF6B6-A9F6-4013-8CFD-20D09137EE88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "M2MqttExampleClient", "M2MqttClient\M2MqttExampleClient.csproj", "{2E5BF6B6-A9F6-4013-8CFD-20D09137EE88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M2MqttExampleClient40", "M2MqttClient40\M2MqttExampleClient40.csproj", "{E5E64824-B4D3-414B-B0D1-7DD50F5AEB7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "M2MqttExampleClient40", "M2MqttClient40\M2MqttExampleClient40.csproj", "{E5E64824-B4D3-414B-B0D1-7DD50F5AEB7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GatewayConfigurationFiles", "GatewayConfigurationFiles", "{9FB4CE85-48E5-4828-9A75-44B2282014AA}"
+	ProjectSection(SolutionItems) = preProject
+		ConfigurationFiles\alarmlist.csv = ConfigurationFiles\alarmlist.csv
+		ConfigurationFiles\dataframelist.csv = ConfigurationFiles\dataframelist.csv
+		ConfigurationFiles\sensorlist.csv = ConfigurationFiles\sensorlist.csv
+		ConfigurationFiles\statechangelist.csv = ConfigurationFiles\statechangelist.csv
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -58,8 +58,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Kognifai.Edge.Serialization" Version="0.1.9-beta0001" />
-    <PackageReference Include="Kognifai.M2Mqtt" Version="0.0.3-beta0001" />
-    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Kognifai.Edge.Serialization" Version="1.0.0" />
+    <PackageReference Include="Kognifai.M2Mqtt" Version="1.0.0" />
   </ItemGroup>
 </Project>
