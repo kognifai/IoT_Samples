@@ -57,7 +57,7 @@ namespace M2MqttExampleClient
             cancel = new CancellationTokenSource();
             clientId = args[0];
             server = args[1];
-            RunClient(clientId,server);
+            RunClient(clientId, server);
         }
 
         private static Task Delay(int milliseconds)
@@ -119,10 +119,11 @@ namespace M2MqttExampleClient
                 try
                 {
                     Console.WriteLine("1 = Send time series messages");
-                    Console.WriteLine("2 = send alarm {0} message", alarmOnOff?"off":"on");
+                    Console.WriteLine("2 = send alarm {0} message", alarmOnOff ? "off" : "on");
                     Console.WriteLine("3 = send a state changed message");
                     Console.WriteLine("4 = send a sample set message");
                     Console.WriteLine("5 = send a compressed container");
+                    Console.WriteLine("6 = send available sensors");
                     Console.WriteLine("Q = quit");
                     var pressedKey = Console.ReadKey(true);
                     if (pressedKey.Key == ConsoleKey.Q)
@@ -313,13 +314,31 @@ namespace M2MqttExampleClient
                         MessageArrayContainer container = new MessageArrayContainer("", array, true);
                         client.Publish(Topics.CloudBoundContainer, container.ToByteArray(), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
                     }
+
+
+                    /*send available sensors
+                     * Place your avaialablesensor.csv file under GatewayConfigurationFiles folder
+                     */
+                    if (pressedKey.Key == ConsoleKey.D6)
+                    {
+                        var sensors = CsvFileReader.ReadDataFromCsvFile("..\\GatewayConfigurationFiles\\availablesensorlist.csv");
+                        AvailableSensorListReplicationMessage availableSensors = new AvailableSensorListReplicationMessage();
+                        availableSensors.ConnectorType = "Mqtt";
+                        availableSensors.SourceName = "source1";
+                        availableSensors.Sensors.AddRange(sensors);
+                        var messageWrapper = availableSensors.ToMessageWrapper();
+                        client.Publish(Topics.AvaialableSensorList, messageWrapper.ToByteArray(), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                        Console.WriteLine("Published available sensor list");
+                    }
+
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("Error: " + e.Message);
                 }
-             }
+            }
             cancel.Dispose();
         }
+
     }
 }

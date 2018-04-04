@@ -30,14 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\CsvFileReader.cs" Link="CsvFileReader.cs" />
     <Compile Include="..\Program.cs" />
+    <Compile Include="..\SensorData.cs" Link="SensorData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Kognifai.Edge.Serialization" Version="1.0.0" />
-    <PackageReference Include="Kognifai.M2Mqtt" Version="1.0.0" />
+    <PackageReference Include="CsvHelper" Version="2.9.1" />
+    <PackageReference Include="Kognifai.Edge.Serialization" Version="1.1.0-alpha0043" />
+    <PackageReference Include="Kognifai.M2Mqtt" Version="1.1.0-alpha0008" />
   </ItemGroup>
 </Project>

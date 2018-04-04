@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "M2MqttExampleClient", "M2MqttClient\M2MqttExampleClient.csproj", "{2E5BF6B6-A9F6-4013-8CFD-20D09137EE88}"
 EndProject
@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GatewayConfigurationFiles", "GatewayConfigurationFiles", "{9FB4CE85-48E5-4828-9A75-44B2282014AA}"
 	ProjectSection(SolutionItems) = preProject
 		ConfigurationFiles\alarmlist.csv = ConfigurationFiles\alarmlist.csv
+		GatewayConfigurationFiles\availablesensorlist.csv = GatewayConfigurationFiles\availablesensorlist.csv
 		ConfigurationFiles\dataframelist.csv = ConfigurationFiles\dataframelist.csv
 		ConfigurationFiles\sensorlist.csv = ConfigurationFiles\sensorlist.csv
 		ConfigurationFiles\statechangelist.csv = ConfigurationFiles\statechangelist.csv
