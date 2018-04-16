@@ -29,6 +29,9 @@ using Kognifai.Serialization;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using Kognifai.Mqtt;
+using System.Text;
+using System.Reflection;
+using System.IO;
 #if NET_FRAMEWORK40
 #else
 using Google.Protobuf;
@@ -124,6 +127,7 @@ namespace M2MqttExampleClient
                     Console.WriteLine("4 = send a sample set message");
                     Console.WriteLine("5 = send a compressed container");
                     Console.WriteLine("6 = send available sensors");
+                    Console.WriteLine("7 = Get TransmitLists");
                     Console.WriteLine("Q = quit");
                     var pressedKey = Console.ReadKey(true);
                     if (pressedKey.Key == ConsoleKey.Q)
@@ -153,7 +157,7 @@ namespace M2MqttExampleClient
                         {
                             DateTimeOffset time = DateTimeOffset.Now.AddYears(0);
 
-                            TimeseriesDoublesReplicationMessage tds = new TimeseriesDoublesReplicationMessage("TimeSeries01", time, Math.Sin(Math.PI / 180 * i));
+                            TimeseriesDoublesReplicationMessage tds = new TimeseriesDoublesReplicationMessage("TimeSeries01",string.Empty, time, Math.Sin(Math.PI / 180 * i));
                             var messageWrpper = tds.ToMessageWrapper();
                             client.Publish(Topics.CloudBound, messageWrpper.ToByteArray(), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
                             var delay = Delay(1);
@@ -174,7 +178,7 @@ namespace M2MqttExampleClient
 
                         var alarm = new AlarmReplicationMessage
                         {
-                            ExternalId = "Alarm01"
+                            SensorId = "Alarm01"
                         };
                         AlarmEvent aEv = new AlarmEvent(
                             DateTime.UtcNow,
@@ -194,7 +198,7 @@ namespace M2MqttExampleClient
                         state %= 5;
                         var stateChanged = new StateChangeReplicationMessage()
                         {
-                            ExternalId = "StateChangeEvent01",
+                            SensorId = "StateChangeEvent01",
                         };
                         var sEv = new StateChange(
                             DateTime.UtcNow,
@@ -229,7 +233,7 @@ namespace M2MqttExampleClient
                         DataframeColumn dataframeColumn = new DataframeColumn(samples);
                         DataframeEvent dataFrame = new DataframeEvent(DateTimeOffset.UtcNow, dataframeColumn);
 
-                        DataframeReplicationMessage samplesetReplicationMessage = new DataframeReplicationMessage("SampleSet01", dataFrame);
+                        DataframeReplicationMessage samplesetReplicationMessage = new DataframeReplicationMessage("SampleSet01", string.Empty,dataFrame);
                         var messageWrapper = samplesetReplicationMessage.ToMessageWrapper();
                         client.Publish(Topics.CloudBound, messageWrapper.ToByteArray(), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                     }
@@ -247,7 +251,7 @@ namespace M2MqttExampleClient
                         {
                             DateTimeOffset time = DateTimeOffset.UtcNow;
 
-                            TimeseriesDoublesReplicationMessage tds = new TimeseriesDoublesReplicationMessage("TimeSeries01", time, i + 1);
+                            TimeseriesDoublesReplicationMessage tds = new TimeseriesDoublesReplicationMessage("TimeSeries01",string.Empty, time, i + 1);
                             array.Messages.Add(tds.ToMessageWrapper());
                             var delay = Delay(10);
                             delay.Wait();
@@ -257,7 +261,7 @@ namespace M2MqttExampleClient
                         bool manOverride = true;
                         var stateChanged = new StateChangeReplicationMessage
                         {
-                            ExternalId = "StateChangeEvent01",
+                            SensorId = "StateChangeEvent01",
                         };
                         for (i = 0; i < 10; i++)
                         {
@@ -283,7 +287,7 @@ namespace M2MqttExampleClient
                             }
                             DataframeColumn dataframeColumn = new DataframeColumn(samples);
                             DataframeEvent dataFrame = new DataframeEvent(DateTimeOffset.UtcNow, dataframeColumn);
-                            DataframeReplicationMessage samplesetReplicationMessage = new DataframeReplicationMessage("SampleSet01", dataFrame);
+                            DataframeReplicationMessage samplesetReplicationMessage = new DataframeReplicationMessage("SampleSet01",string.Empty, dataFrame);
                             array.Messages.Add(samplesetReplicationMessage.ToMessageWrapper());
                             var delay = Delay(10);
                             delay.Wait();
@@ -299,7 +303,7 @@ namespace M2MqttExampleClient
 
                             var alarm = new AlarmReplicationMessage
                             {
-                                ExternalId = "Alarm01",
+                                SensorId = "Alarm01",
                             };
                             AlarmEvent aEv = new AlarmEvent(
                                 DateTime.UtcNow,
@@ -316,12 +320,11 @@ namespace M2MqttExampleClient
                     }
 
 
-                    /*send available sensors
-                     * Place your avaialablesensor.csv file under GatewayConfigurationFiles folder
-                     */
+                    /*send available sensors */
                     if (pressedKey.Key == ConsoleKey.D6)
                     {
-                        var sensors = CsvFileReader.ReadDataFromCsvFile("..\\GatewayConfigurationFiles\\availablesensorlist.csv");
+                        string path = GetAvailableSensorsPath();
+                        var sensors = CsvFileReader.ReadDataFromCsvFile(path);
                         AvailableSensorListReplicationMessage availableSensors = new AvailableSensorListReplicationMessage();
                         availableSensors.ConnectorType = "Mqtt";
                         availableSensors.SourceName = "source1";
@@ -331,6 +334,26 @@ namespace M2MqttExampleClient
                         Console.WriteLine("Published available sensor list");
                     }
 
+                    /* Get TransmitList */
+                    if (pressedKey.Key == ConsoleKey.D7)
+                    {
+                        /* Publish the empty messages fro the topics (AlarmTransmitList, SensorDataTransmitList,StateChangeTransmitList and DataframeTransmitList) to get the intial transmit lists(Immediately when you connect to server, server will publish the available transmit lists).
+                        If we don't want the intial transmitlists, we can ignore this step. */
+                        client.Publish(Topics.AlarmTransmitList, new byte[0]);
+                        client.Publish(Topics.SensorDataTransmitList, new byte[0]);
+                        client.Publish(Topics.StateChangeTransmitList, new byte[0]);
+                        client.Publish(Topics.DataframeTransmitList, new byte[0]);
+
+                        //Subscribe to TransmitLists topic to recive the transmit lists, when the server publishes.
+                        client.Subscribe(new[] { Topics.TransmitLists }, new[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+
+                        //Receive handler 
+                        client.MqttMsgPublishReceived += (s, e) =>
+                        {
+                            ApplicationMessageReceived(s, e);
+                        };
+                    }
+
                 }
                 catch (Exception e)
                 {
@@ -338,6 +361,20 @@ namespace M2MqttExampleClient
                 }
             }
             cancel.Dispose();
+        }
+
+        //Method to handle received trasnmit list
+        private static void ApplicationMessageReceived(object sender, MqttMsgPublishEventArgs message)
+        {
+            Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+            Console.WriteLine($"+ Topic = {message.Topic}");
+        }
+
+        private static string GetAvailableSensorsPath()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            DirectoryInfo info = Directory.GetParent(assembly.Location);
+           return string.Concat(info.FullName, "\\AvailableSensorList\\availablesensorlist.csv");            
         }
 
     }

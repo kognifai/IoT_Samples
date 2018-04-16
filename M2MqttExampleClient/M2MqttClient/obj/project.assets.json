@@ -44,7 +44,7 @@
           "lib/net462/Kognifai.CloudGateway.Definitions.dll": {}
         }
       },
-      "Kognifai.Edge.Serialization/1.1.0-alpha0043": {
+      "Kognifai.Edge.Serialization/1.1.0-alpha0053": {
         "type": "package",
         "dependencies": {
           "Google.Protobuf": "3.4.1",
@@ -484,12 +484,12 @@
         "lib/netstandard2.0/Kognifai.CloudGateway.Definitions.pdb"
       ]
     },
-    "Kognifai.Edge.Serialization/1.1.0-alpha0043": {
-      "sha512": "CibH6gzBc8qu+9ISSCvV2XlK7DaDw6oXH3FJeKUrx9hyFuK03xeCHMrpb6pc/5ncYOPNcEKkEadwp/Q1L+2k0g==",
+    "Kognifai.Edge.Serialization/1.1.0-alpha0053": {
+      "sha512": "Z8wuXtxx+FurMUKvV1IDhKmRu3xMFuRoMDjNu26M80MPh7PG0mLohKG7Xy870zhAy6fwSBCNhry3pIxN4pkeGw==",
       "type": "package",
-      "path": "kognifai.edge.serialization/1.1.0-alpha0043",
+      "path": "kognifai.edge.serialization/1.1.0-alpha0053",
       "files": [
-        "kognifai.edge.serialization.1.1.0-alpha0043.nupkg.sha512",
+        "kognifai.edge.serialization.1.1.0-alpha0053.nupkg.sha512",
         "kognifai.edge.serialization.nuspec",
         "lib/net40/Kognifai.Edge.Serialization.net40clients.dll",
         "lib/net40/Kognifai.Edge.Serialization.net40clients.pdb",
@@ -772,32 +772,32 @@
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.6.2": [
       "Kognifai.CloudServices.Shared >= 1.1.0-alpha0112",
-      "Kognifai.Edge.Serialization >= 1.1.0-alpha0043",
+      "Kognifai.Edge.Serialization >= 1.1.0-alpha0053",
       "Kognifai.M2Mqtt >= 1.1.0-alpha0008"
     ]
   },
   "packageFolders": {
     "C:\\Users\\devarp\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
       "projectUniqueName": "C:\\Users\\devarp\\Source\\Repos\\IoT\\M2MqttExampleClient\\M2MqttClient\\M2MqttExampleClient.csproj",
-      "projectName": "M2MqttExampleClient",
+      "projectName": "M2MqttClient",
       "projectPath": "C:\\Users\\devarp\\Source\\Repos\\IoT\\M2MqttExampleClient\\M2MqttClient\\M2MqttExampleClient.csproj",
       "packagesPath": "C:\\Users\\devarp\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\devarp\\Source\\Repos\\IoT\\M2MqttExampleClient\\M2MqttClient\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
         "C:\\Users\\devarp\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "net462"
@@ -821,17 +821,17 @@
     "frameworks": {
       "net462": {
         "dependencies": {
-          "Kognifai.Edge.Serialization": {
-            "target": "Package",
-            "version": "1.1.0-alpha0043"
-          },
           "Kognifai.CloudServices.Shared": {
             "target": "Package",
-            "version": "1.1.0-alpha0112"
+            "version": "[1.1.0-alpha0112, )"
+          },
+          "Kognifai.Edge.Serialization": {
+            "target": "Package",
+            "version": "[1.1.0-alpha0053, )"
           },
           "Kognifai.M2Mqtt": {
             "target": "Package",
-            "version": "1.1.0-alpha0008"
+            "version": "[1.1.0-alpha0008, )"
           }
         }
       }

@@ -17,10 +17,15 @@ namespace M2MqttExampleClient
         public ulong? ExternalPollFrequency { get; set; }
 
         public string TargetPath { get; set; }
-        public SensorReadingType ExternalReadingType { get; set; }
+
+        public SensorReadingType? ExternalReadingType { get; set; }
+
         public ulong? ExternalIndexDelayTimeSec { get; set; }
+
         public string ExternalSensorColumnDescription { get; set; }
+
         public string ExternalColumnMeasureunit { get; set; }
+
         public string TargetColumnMeasureUnit { get; set; }
 
 

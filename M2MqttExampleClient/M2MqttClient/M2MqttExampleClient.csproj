@@ -53,6 +53,9 @@
     <Compile Include="..\SensorData.cs" Link="SensorData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\availablesensorlist.csv" Link="AvailableSensorList\availablesensorlist.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -61,7 +64,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Kognifai.CloudServices.Shared" Version="1.1.0-alpha0112" />
-    <PackageReference Include="Kognifai.Edge.Serialization" Version="1.1.0-alpha0043" />
+    <PackageReference Include="Kognifai.Edge.Serialization" Version="1.1.0-alpha0053" />
     <PackageReference Include="Kognifai.M2Mqtt" Version="1.1.0-alpha0008" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AvailableSensorList\" />
   </ItemGroup>
 </Project>

@@ -22,14 +22,9 @@ namespace M2MqttExampleClient
                     SensorMetadata sensorMeta = new SensorMetadata
                     {
                         ExternalId = data.ExternalId
-                    };
-                    sensorMeta.SensorProperties.Add("TargetNodeDisplayName", new Property(data.TargetNodeDisplayName));
-                    sensorMeta.SensorProperties.Add("PollFrequency", new Property(data.ExternalPollFrequency.ToString()));
-                    sensorMeta.SensorProperties.Add("TargetPath", new Property(data.TargetPath.ToString()));
-                    sensorMeta.SensorProperties.Add("SensorReadingType", new Property(data.ExternalReadingType.ToString()));
-                    sensorMeta.SensorProperties.Add("ExternalIndexDelayTimeSec", new Property(data.ExternalIndexDelayTimeSec.ToString()));
-                    sensorMeta.SensorProperties.Add("Description", new Property(data.ExternalSensorColumnDescription.ToString()));
-                    sensorMeta.SensorProperties.Add("MeasureUnit", new Property(data.ExternalColumnMeasureunit.ToString()));
+                    };                   
+                    sensorMeta.Properties.Add("PollFrequency", new Property(data.ExternalPollFrequency.ToString()));
+                    sensorMeta.Properties.Add("SensorReadingType", new Property(data.ExternalReadingType.ToString()));
                     sensorMetadata.Add(sensorMeta);
                 }
                 return sensorMetadata;
