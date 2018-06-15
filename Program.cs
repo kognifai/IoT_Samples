@@ -153,7 +153,7 @@ namespace M2MqttExampleClient
                         {
                             DateTimeOffset time = DateTimeOffset.Now.AddYears(0);
 
-                            TimeseriesDoublesReplicationMessage tds = new TimeseriesDoublesReplicationMessage("TimeSeries01", time, Math.Sin(Math.PI / 180 * i));
+                            TimeseriesDoublesReplicationMessage tds = new TimeseriesDoublesReplicationMessage("TimeSeries01", "TimeSeries01", time, Math.Sin(Math.PI / 180 * i));
                             var messageWrpper = tds.ToMessageWrapper();
                             client.Publish(Topics.CloudBound, messageWrpper.ToByteArray(), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
                             var delay = Delay(1);
@@ -174,7 +174,7 @@ namespace M2MqttExampleClient
 
                         var alarm = new AlarmReplicationMessage
                         {
-                            ExternalId = "Alarm01"
+                            SensorId = "Alarm01"
                         };
                         AlarmEvent aEv = new AlarmEvent(
                             DateTime.UtcNow,
@@ -194,7 +194,7 @@ namespace M2MqttExampleClient
                         state %= 5;
                         var stateChanged = new StateChangeReplicationMessage()
                         {
-                            ExternalId = "StateChangeEvent01",
+                            SensorId = "StateChangeEvent01",
                         };
                         var sEv = new StateChange(
                             DateTime.UtcNow,
@@ -229,7 +229,7 @@ namespace M2MqttExampleClient
                         DataframeColumn dataframeColumn = new DataframeColumn(samples);
                         DataframeEvent dataFrame = new DataframeEvent(DateTimeOffset.UtcNow, dataframeColumn);
 
-                        DataframeReplicationMessage samplesetReplicationMessage = new DataframeReplicationMessage("SampleSet01", dataFrame);
+                        DataframeReplicationMessage samplesetReplicationMessage = new DataframeReplicationMessage("SampleSet01", "SampleSet01", dataFrame);
                         var messageWrapper = samplesetReplicationMessage.ToMessageWrapper();
                         client.Publish(Topics.CloudBound, messageWrapper.ToByteArray(), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                     }
@@ -247,7 +247,7 @@ namespace M2MqttExampleClient
                         {
                             DateTimeOffset time = DateTimeOffset.UtcNow;
 
-                            TimeseriesDoublesReplicationMessage tds = new TimeseriesDoublesReplicationMessage("TimeSeries01", time, i + 1);
+                            TimeseriesDoublesReplicationMessage tds = new TimeseriesDoublesReplicationMessage("TimeSeries01", "TimeSeries01", time, i + 1);
                             array.Messages.Add(tds.ToMessageWrapper());
                             var delay = Delay(10);
                             delay.Wait();
@@ -257,7 +257,7 @@ namespace M2MqttExampleClient
                         bool manOverride = true;
                         var stateChanged = new StateChangeReplicationMessage
                         {
-                            ExternalId = "StateChangeEvent01",
+                            SensorId = "StateChangeEvent01",
                         };
                         for (i = 0; i < 10; i++)
                         {
@@ -283,7 +283,7 @@ namespace M2MqttExampleClient
                             }
                             DataframeColumn dataframeColumn = new DataframeColumn(samples);
                             DataframeEvent dataFrame = new DataframeEvent(DateTimeOffset.UtcNow, dataframeColumn);
-                            DataframeReplicationMessage samplesetReplicationMessage = new DataframeReplicationMessage("SampleSet01", dataFrame);
+                            DataframeReplicationMessage samplesetReplicationMessage = new DataframeReplicationMessage("SampleSet01", "SampleSet01", dataFrame);
                             array.Messages.Add(samplesetReplicationMessage.ToMessageWrapper());
                             var delay = Delay(10);
                             delay.Wait();
@@ -299,7 +299,7 @@ namespace M2MqttExampleClient
 
                             var alarm = new AlarmReplicationMessage
                             {
-                                ExternalId = "Alarm01",
+                                SensorId = "Alarm01",
                             };
                             AlarmEvent aEv = new AlarmEvent(
                                 DateTime.UtcNow,
