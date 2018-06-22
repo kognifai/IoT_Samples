@@ -110,6 +110,10 @@ namespace M2MqttExampleClient
             /* register handler for connectio closed event */
             client.ConnectionClosed += ConnectionClosed;
 
+            client.MqttMsgPublishReceived += (sender, eventArgs) =>
+            {
+                ApplicationMessageReceived(sender, eventArgs);
+            };
             /* connect to the server */
             var connectClient = new Task(() => Connect(false));
             connectClient.Start();
@@ -124,6 +128,7 @@ namespace M2MqttExampleClient
                     Console.WriteLine("4 = send a sample set message");
                     Console.WriteLine("5 = send a compressed container");
                     Console.WriteLine("6 = send available sensors");
+                    Console.WriteLine("7 = Subscribe Transmit lists");
                     Console.WriteLine("Q = quit");
                     var pressedKey = Console.ReadKey(true);
                     if (pressedKey.Key == ConsoleKey.Q)
@@ -330,6 +335,13 @@ namespace M2MqttExampleClient
                         client.Publish(Topics.AvaialableSensorList, messageWrapper.ToByteArray(), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                         Console.WriteLine("Published available sensor list");
                     }
+                    /*send available sensors
+                     * Place your avaialablesensor.csv file under GatewayConfigurationFiles folder
+                     */
+                    if (pressedKey.Key == ConsoleKey.D7)
+                    {
+                        client.Subscribe(new[] { Topics.TransmitLists }, new[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+                    }
 
                 }
                 catch (Exception e)
@@ -338,6 +350,15 @@ namespace M2MqttExampleClient
                 }
             }
             cancel.Dispose();
+        }
+
+        private static void ApplicationMessageReceived(object sender, MqttMsgPublishEventArgs message)
+        {
+            Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+            Console.WriteLine($"+ Topic = {message.Topic}");
+            Console.WriteLine($"+ QoS = {message.QosLevel}");
+            Console.WriteLine($"+ Retain = {message.Retain}");
+            Console.WriteLine();
         }
 
     }
