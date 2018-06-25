@@ -332,7 +332,7 @@ namespace M2MqttExampleClient
                         availableSensors.SourceName = "source1";
                         availableSensors.Sensors.AddRange(sensors);
                         var messageWrapper = availableSensors.ToMessageWrapper();
-                        client.Publish(Topics.AvaialableSensorList, messageWrapper.ToByteArray(), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                        client.Publish(Topics.AvailableSensorList, messageWrapper.ToByteArray(), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
                         Console.WriteLine("Published available sensor list");
                     }
                     /*send available sensors
